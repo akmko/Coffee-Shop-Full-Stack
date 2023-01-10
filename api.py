@@ -39,15 +39,18 @@ def umai(jwt):
 
 @app.route('/drinks')
 def drinks():
-    drinks = Drink.query.all()
-    formatted_drinks = [drink.short() for drink in drinks]
-    if drinks is None:
-        abort(404)
-    else:   
-        return jsonify({
-            'success': True,
-            'drinks':formatted_drinks
-            })
+    try:
+        drinks = Drink.query.all()
+        formatted_drinks = [drink.short() for drink in drinks]
+        if drinks is None:
+            abort(404)
+        else:   
+            return jsonify({
+                'success': True,
+                'drinks':formatted_drinks
+                })
+    except:
+        abort(422)
 
 '''
 @TODO implement endpoint
@@ -58,18 +61,20 @@ def drinks():
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks-detail')
-#@requires_auth('get:drinks-detail')
+@requires_auth('get:drinks-detail')
 def drinks_detail():
-    drinks = Drink.query.all()
-    formatted_drinks = [drink.long() for drink in drinks]
-    if drinks is None:
-        abort(404)
-    else:   
-        return jsonify({
-            'success': True,
-            'drinks':formatted_drinks
-            })
-
+    try:
+        drinks = Drink.query.all()
+        formatted_drinks = [drink.long() for drink in drinks]
+        if drinks is None:
+            abort(404)
+        else:   
+            return jsonify({
+                'success': True,
+                'drinks':formatted_drinks
+                })
+    except:
+        abort(422)
 
 '''
 @TODO implement endpoint
